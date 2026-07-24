@@ -1,0 +1,9 @@
+# Java
+backend-java/target/
+*.class
+
+# Node
+frontend/node_modules/
+
+# Environment
+.env
