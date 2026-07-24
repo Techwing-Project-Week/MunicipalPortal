@@ -18,6 +18,22 @@ pipeline {
                 }
             }
         }
+
+        stage('Docker Build & Deploy') {
+            steps {
+                sh '''
+                docker build -t municipal-backend ./backend-java
+
+                docker stop municipal-backend || true
+                docker rm municipal-backend || true
+
+                docker run -d \
+                --name municipal-backend \
+                -p 8080:8080 \
+                municipal-backend
+                '''
+            }
+        }
     }
 
     post {
@@ -30,6 +46,8 @@ Build completed successfully.
 
 Project: ${env.JOB_NAME}
 Build Number: ${env.BUILD_NUMBER}
+
+Docker Deployment Completed.
 
 Check Jenkins:
 ${env.BUILD_URL}
