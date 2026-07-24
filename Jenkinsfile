@@ -1,7 +1,9 @@
 pipeline {
+
     agent any
 
     stages {
+
         stage('Checkout') {
             steps {
                 git branch: 'main',
@@ -19,21 +21,23 @@ pipeline {
     }
 
     post {
+
         success {
             emailext(
                 subject: "MunicipalPortal Build SUCCESS",
                 body: """
 Build completed successfully.
 
-Project: $PROJECT_NAME
-Build Number: $BUILD_NUMBER
+Project: ${env.JOB_NAME}
+Build Number: ${env.BUILD_NUMBER}
 
 Check Jenkins:
-$BUILD_URL
+${env.BUILD_URL}
 """,
                 to: "chintavindhyavahini@gmail.com,dommetisai997@gmail.com,nagasaikadali411@gmail.com,harshithanamala04@gmail.com,8919698419l@gmail.com,potlabrahmendra799@gmail.com"
             )
         }
+
 
         failure {
             emailext(
@@ -41,11 +45,11 @@ $BUILD_URL
                 body: """
 Build failed.
 
-Project: $PROJECT_NAME
-Build Number: $BUILD_NUMBER
+Project: ${env.JOB_NAME}
+Build Number: ${env.BUILD_NUMBER}
 
 Check Jenkins:
-$BUILD_URL
+${env.BUILD_URL}
 """,
                 to: "chintavindhyavahini@gmail.com,dommetisai997@gmail.com,nagasaikadali411@gmail.com,harshithanamala04@gmail.com,8919698419l@gmail.com,potlabrahmendra799@gmail.com"
             )
